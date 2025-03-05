@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/02/27 19:53:22 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:52:29 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char	readbuffer(int fd)
+char	*ft_readbuffer(int fd)
 {
-	int		readbuf;
-	char	buffer[BUFFER_SIZE];
-	char	*line;
+	char		*readbuf;
+	int			bytesread;
+	// char		buffer[BUFFER_SIZE + 1];
+	char *buffer = malloc(sizeof(char)* BUFFER_SIZE + 1);
 
 	if (fd < 0)
 		return (NULL);
-	readbuf = read (fd, buffer, BUFFER_SIZE);
-	if (readbuf <= 0)
+	bytesread = read (fd, buffer, BUFFER_SIZE);
+	if (bytesread <= 0)
 		return (NULL);
-	while (readbuf != '\n' || '\0')
-		line = readbuf;
-	return (line);
+	buffer[bytesread] = '\0';
+	// readbuf = ft_strdup(buffer);
+	return (buffer);
 }
 
-char getline
+char *ft_getline (int fd)
 {
-	
-}
+	char	*buffer;
+	static char	*resto;
+	char	*line = malloc(sizeof(char)* BUFFER_SIZE + 1);;
+	int		find;
 
-char	*get_next_line(int fd)
-{
-	int			i;
-	int			len;
-	
-	char		buffer[1000 + 1];
-	static char	*line;
-
-	
-	len = ft_untiln(buffer);
-	line = (char *)malloc(len + 1);
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (line && i < len)
+	/*if (resto)
 	{
-		line [i] = buffer[i];
-		i++;
-	}
-	line [len] = '\0';
+		temp = ft_strjoin(resto, buffer);
+		free(resto);
+		free (buffer);
+		buffer = temp;
+	}*/
+
+	buffer = ft_readbuffer(fd);
+	if (!buffer)
+		return (NULL);
+	find = ft_untiln(buffer);
+	line = ft_strlcpy(line, buffer, find);
+	resto = ft_strchr(buffer, '\n') + 1;
+	free(buffer);
 	return (line);
 }
 
@@ -73,14 +71,9 @@ int	main (int argc, char **argv)
 			perror("error :[");
 			return (1);
 		}
-	result = get_next_line(fd);
+	result = ft_getline(fd);
 	printf("Linea %s", result);
 	free(result);
-	result = get_next_line(fd);
-	printf("Linea %s", result);
-/* 	while ((result = get_next_line(fd)))
-		printf("linea %s", result); */
-	free (result);
 	close (fd);
 	return (0);
 }
