@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/05 18:52:29 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:00:13 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,45 +16,76 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char	*ft_readbuffer(int fd)
+int	ft_untiln(const char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0' && s[i] != '\n')
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	size_t	len;
+	char	*dest;
+
+	len = ft_strlen(s) + 1;
+	dest = (char *)malloc(len);
+	if (dest == NULL)
+		return (NULL);
+	ft_strncpy(dest, s, len);
+	return (dest);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_readbuffer(int fd, char *b)
 {
 	char		*readbuf;
 	int			bytesread;
-	// char		buffer[BUFFER_SIZE + 1];
-	char *buffer = malloc(sizeof(char)* BUFFER_SIZE + 1);
+	char		buffer[BUFFER_SIZE + 1];
 
 	if (fd < 0)
 		return (NULL);
-	bytesread = read (fd, buffer, BUFFER_SIZE);
-	if (bytesread <= 0)
-		return (NULL);
-	buffer[bytesread] = '\0';
-	// readbuf = ft_strdup(buffer);
-	return (buffer);
+	while (!ft_strchr(b, '\n'))
+	{
+		bytesread = read (fd, buffer, BUFFER_SIZE);
+		if (bytesread <= 0)
+			return (NULL);
+		buffer[bytesread] = '\0';
+		b = ft_strjoin(b, buffer);
+	}
+	return (b);
 }
 
 char *ft_getline (int fd)
 {
 	char	*buffer;
 	static char	*resto;
-	char	*line = malloc(sizeof(char)* BUFFER_SIZE + 1);;
+	char	*line;
 	int		find;
-
-	/*if (resto)
-	{
-		temp = ft_strjoin(resto, buffer);
-		free(resto);
-		free (buffer);
-		buffer = temp;
-	}*/
-
-	buffer = ft_readbuffer(fd);
+	char	*buffer2;
+	
+	buffer = ft_readbuffer(fd, resto);
 	if (!buffer)
 		return (NULL);
 	find = ft_untiln(buffer);
-	line = ft_strlcpy(line, buffer, find);
+	line = ft_substr(buffer, 0, find);
 	resto = ft_strchr(buffer, '\n') + 1;
-	free(buffer);
 	return (line);
 }
 
@@ -72,7 +103,11 @@ int	main (int argc, char **argv)
 			return (1);
 		}
 	result = ft_getline(fd);
-	printf("Linea %s", result);
+	while (result)
+	{
+		printf("%s\n", result);
+		result = ft_getline(fd);
+	}
 	free(result);
 	close (fd);
 	return (0);
