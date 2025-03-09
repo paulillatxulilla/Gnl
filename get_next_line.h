@@ -6,18 +6,20 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:23 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/07 16:59:57 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/09 19:44:02 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 10
+#ifndef BUFFER_SIZE
+    # define BUFFER_SIZE 42
+#endif
 # include <stdlib.h>
 # include <unistd.h>
 
 char	*ft_readbuffer(int fd, char *b);
-char *ft_getline (int fd);
+char *ft_get_next_line (int fd);
 int	ft_untiln(const char *s);
 char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);
