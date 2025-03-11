@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/11 19:37:57 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:50:32 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,6 @@ int	ft_untiln(const char *s)
 	return (i);
 }
 
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
 
 char	*ft_readbuffer(int fd, char *b)
 {
@@ -52,7 +41,11 @@ char	*ft_readbuffer(int fd, char *b)
 	{
 		bytesread = read (fd, buffer, BUFFER_SIZE);
 		if (bytesread == -1)
+		{
+			
+			free(buffer);
 			return (NULL);
+		}
 		if (bytesread == 0)
 			break;
 		buffer[bytesread] = '\0';		
@@ -82,28 +75,27 @@ char *get_next_line (int fd)
 	return (line);
 }
 
-/* int	main (int argc, char **argv)
-{
-	int fd;
-	char *result;
+// int	main (int argc, char **argv)
+// {
+// 	int fd;
+// 	char *result;
 	
-	if (argc != 2)
-		return (0);
-	fd = open("lorem ipsum.txt", O_RDONLY);
-	if (fd == -1)
-		{
-			perror("error :[");
-			return (1);
-		}
-	result = ft_getline(fd);
-	while (result)
-	{
-		printf("%s\n", result);
-		free(result);
-		result = ft_getline(fd);
-	}
+// 	if (argc != 2)
+// 		return (0);
+// 	fd = open(argv[1], O_RDONLY);
+// 	if (fd == -1)
+// 		{
+// 			perror("error :[");
+// 			return (1);
+// 		}
+// 	result = get_next_line(42);
+// 	while (result)
+// 	{
+// 		printf("%s\n", result);
+// 		free(result);
+// 		result = get_next_line(42);
+// 	}
 	
-	close (fd);
-	return (0);
-}
- */
+// 	close (fd);
+// 	return (0);
+// }

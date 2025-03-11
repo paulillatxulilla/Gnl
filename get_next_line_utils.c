@@ -6,12 +6,24 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:09 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/11 19:31:15 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:47:29 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -77,30 +89,6 @@ char	*ft_strncpy(char *dest, const char *src, size_t dsize)
 		i++;
 	}
 	return (dest);
-}
-
-size_t	ft_strlcat(char *dest, const char *src, size_t size)
-{
-	size_t	dlen;
-	size_t	slen;
-	size_t	i;
-
-	i = 0;
-	dlen = 0;
-	slen = 0;
-	while (dest[dlen] != '\0' && dlen < size)
-		dlen++;
-	while (src[slen] != '\0')
-		slen++;
-	if (size <= dlen)
-		return (size + slen);
-	while (src[i] != '\0' && (dlen + i) < (size - 1))
-	{
-		dest[dlen + i] = src[i];
-		i++;
-	}
-	dest[dlen + i] = '\0';
-	return (dlen + slen);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
