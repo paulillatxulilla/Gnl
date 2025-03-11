@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:09 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/09 19:26:39 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:31:15 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,32 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*s3;
-	size_t	len1;
-	size_t	len2;
+	char	*str;
+	int		i;
+	int		j;
 
-	if (s1 == NULL)
-		s1 = "";
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	s3 = (char *)malloc (len1 + len2 + 1);
-	if (s3 == NULL)
-		return (NULL);
-	ft_strncpy(s3, s1, len1 + len2 + 1);
-	ft_strlcat (s3, s2, len1 + len2 + 1);
-	return (s3);
+	i = -1;
+	j = -1;
+	if (!s1 || !s2)
+	{
+		s1 = malloc(sizeof(char) + 1);
+		if (!s1 || !s2)
+			return (NULL);
+		s1[0] = '\0';
+	}
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str)
+	{
+		while (s1[++i] != '\0')
+			str[i] = s1[i];
+		while (s2[++j] != '\0')
+			str[i + j] = s2[j];
+		str[i + j] = '\0';
+	}
+	free(s1);
+	return (str);
 }
 
 char	*ft_strncpy(char *dest, const char *src, size_t dsize)
@@ -95,23 +105,29 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*subs;
+	size_t	i;
 	size_t	slen;
-	size_t	sublen;
+	int		j;
+	char	*ss;
 
+	i = start;
+	j = 0;
+	slen = ft_strlen(s);
 	if (s == NULL)
 		return (NULL);
-	slen = ft_strlen(s);
-	if (start >= slen)
-		return (ft_strdup(""));
-	if (len > slen - start)
-		sublen = slen - start;
-	else
-		sublen = len;
-	subs = (char *)malloc(sublen + 1);
-	if (subs == NULL)
+	if ((start + len) > slen)
+		len = slen - start;
+	if ((start) > slen)
 		return (NULL);
-	ft_strncpy(subs, &s[start], sublen);
-	subs[sublen] = '\0';
-	return (subs);
+	ss = (char *) malloc(sizeof(char *) * (len + 1));
+	if (ss == NULL)
+		return (NULL);
+	while (s[i] != '\0' && (start + len) > i)
+	{
+		ss[j] = s[i];
+		j++;
+		i++;
+	}
+	ss[j] = '\0';
+	return (ss);
 }

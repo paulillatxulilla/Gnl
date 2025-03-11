@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/11 17:22:11 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:37:57 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-/* char *test(char *str)
-{
-	char *a;
-	int l1;
-	int l2;
-
-	if (!str)
-		return (NULL);
-	l1 = ft_strlen(str);
-	l2 = ft_strlen(ft_strchr(str, '\n'));
-	a = ft_substr(str, (l1 - l2) + 1, l2 - 1);
-	if (!a)
-		return (NULL);
-	return (a);
-} */
 int	ft_untiln(const char *s)
 {
 	int	i;
@@ -42,19 +26,6 @@ int	ft_untiln(const char *s)
 	while (s[i] != '\0' && s[i] != '\n')
 		i++;
 	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	char	*dest;
-
-	len = ft_strlen(s) + 1;
-	dest = (char *)malloc(len);
-	if (dest == NULL)
-		return (NULL);
-	ft_strncpy(dest, s, len);
-	return (dest);
 }
 
 size_t	ft_strlen(const char *s)
@@ -72,8 +43,9 @@ size_t	ft_strlen(const char *s)
 char	*ft_readbuffer(int fd, char *b)
 {
 	int			bytesread;
-	char		buffer[BUFFER_SIZE + 1];
-	char	*temp;
+	char		*buffer;
+	
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0)
 		return (NULL);
 	while (!ft_strchr(b, '\n'))
@@ -83,41 +55,41 @@ char	*ft_readbuffer(int fd, char *b)
 			return (NULL);
 		if (bytesread == 0)
 			break;
-		buffer[bytesread] = '\0';
-		// temp = b;
+		buffer[bytesread] = '\0';		
 		b = ft_strjoin(b, buffer);
-		// if (temp)
-		// 	free(temp);
 	}
+	free (buffer);
 	return (b);
 }
 
-char *ft_getline (int fd)
+char *get_next_line (int fd)
 {
 	char		*buffer;
-	char		*temp;
 	static char	*resto;
 	char		*line;
 	int			find;
 	
 	buffer = ft_readbuffer(fd, resto);
+	if (!buffer)
+		return (NULL);
 	find = ft_untiln(buffer);
 	line = ft_substr(buffer, 0, find);
 	if (ft_strchr(buffer, '\n'))
-		resto = ft_strchr(buffer, '\n') + 1;
+		resto = ft_substr(buffer, find + 1, BUFFER_SIZE);
 	else
 		resto = NULL;
+	free (buffer);
 	return (line);
 }
 
-int	main (int argc, char **argv)
+/* int	main (int argc, char **argv)
 {
 	int fd;
 	char *result;
 	
 	if (argc != 2)
 		return (0);
-	fd = open(argv[1], O_RDONLY);
+	fd = open("lorem ipsum.txt", O_RDONLY);
 	if (fd == -1)
 		{
 			perror("error :[");
@@ -134,3 +106,4 @@ int	main (int argc, char **argv)
 	close (fd);
 	return (0);
 }
+ */
