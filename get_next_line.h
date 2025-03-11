@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:23 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/09 19:44:02 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:57:35 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 
 char	*ft_readbuffer(int fd, char *b);
-char *ft_get_next_line (int fd);
+char *ft_getline (int fd);
 int	ft_untiln(const char *s);
 char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);

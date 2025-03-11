@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/09 19:43:45 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:22:11 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_readbuffer(int fd, char *b)
 {
 	int			bytesread;
 	char		buffer[BUFFER_SIZE + 1];
-	
+	char	*temp;
 	if (fd < 0)
 		return (NULL);
 	while (!ft_strchr(b, '\n'))
@@ -84,14 +84,18 @@ char	*ft_readbuffer(int fd, char *b)
 		if (bytesread == 0)
 			break;
 		buffer[bytesread] = '\0';
+		// temp = b;
 		b = ft_strjoin(b, buffer);
+		// if (temp)
+		// 	free(temp);
 	}
 	return (b);
 }
 
-char *ft_get_next_line (int fd)
+char *ft_getline (int fd)
 {
 	char		*buffer;
+	char		*temp;
 	static char	*resto;
 	char		*line;
 	int			find;
@@ -99,12 +103,14 @@ char *ft_get_next_line (int fd)
 	buffer = ft_readbuffer(fd, resto);
 	find = ft_untiln(buffer);
 	line = ft_substr(buffer, 0, find);
-	resto = ft_strchr(buffer, '\n') + 1;
-	//resto = test(buffer);
+	if (ft_strchr(buffer, '\n'))
+		resto = ft_strchr(buffer, '\n') + 1;
+	else
+		resto = NULL;
 	return (line);
 }
 
-/* int	main (int argc, char **argv)
+int	main (int argc, char **argv)
 {
 	int fd;
 	char *result;
@@ -127,4 +133,4 @@ char *ft_get_next_line (int fd)
 	
 	close (fd);
 	return (0);
-} */
+}
