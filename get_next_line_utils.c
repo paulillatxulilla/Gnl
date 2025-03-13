@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:09 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/11 19:47:29 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:03:15 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strchr(const char *s, int c)
 
 	cc = (char) c;
 	st = (char *)s;
-	if(!st)
+	if (!st)
 		return (NULL);
 	while (*st != '\0')
 	{
