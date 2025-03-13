@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:44:23 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/12 17:06:53 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:03:15 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1000
 # endif
 # include <stdlib.h>
 # include <unistd.h>

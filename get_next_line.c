@@ -6,7 +6,7 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/12 17:46:10 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:50:49 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_untiln(const char *s)
 		return (-1);
 	while (s[i] != '\0' && s[i] != '\n')
 		i++;
-	return (i + 1);
+	return (i);
 }
 
 char	*ft_readbuffer(int fd, char *b)
@@ -34,7 +34,7 @@ char	*ft_readbuffer(int fd, char *b)
 	char		*buffer;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!fd || fd < 0)
+	if (fd < 0)
 	{
 		free (buffer);
 		return (NULL);
@@ -59,19 +59,19 @@ char	*ft_readbuffer(int fd, char *b)
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	static char	*resto;
+	static char	*rest = NULL;
 	char		*line;
 	int			find;
 
-	buffer = ft_readbuffer(fd, resto);
+	buffer = ft_readbuffer(fd, rest);
 	if (!buffer)
 		return (NULL);
 	find = ft_untiln(buffer);
-	line = ft_substr(buffer, 0, find);
-	if (ft_strchr(buffer, '\n') || ft_strchr(buffer, '\0'))
-		resto = ft_substr(buffer, find + 1, BUFFER_SIZE);
+	line = ft_substr(buffer, 0, find + 1);
+	if (ft_strchr(buffer, '\n'))
+		rest = ft_substr(buffer, find + 1, BUFFER_SIZE);
 	else
-		resto = NULL;
+		rest = NULL;
 	free (buffer);
 	return (line);
 }
