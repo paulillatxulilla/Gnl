@@ -6,15 +6,12 @@
 /*   By: padan-pe <padan-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:43:54 by padan-pe          #+#    #+#             */
-/*   Updated: 2025/03/13 17:50:49 by padan-pe         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:37:37 by padan-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <fcntl.h>
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	ft_untiln(const char *s)
 {
@@ -28,7 +25,7 @@ int	ft_untiln(const char *s)
 	return (i);
 }
 
-char	*ft_readbuffer(int fd, char *b)
+char	*ft_readbuffer(int fd, char *rest)
 {
 	int			bytesread;
 	char		*buffer;
@@ -39,7 +36,7 @@ char	*ft_readbuffer(int fd, char *b)
 		free (buffer);
 		return (NULL);
 	}
-	while (!ft_strchr(b, '\n'))
+	while (!ft_strchr(rest, '\n'))
 	{
 		bytesread = read (fd, buffer, BUFFER_SIZE);
 		if (bytesread == -1)
@@ -50,10 +47,10 @@ char	*ft_readbuffer(int fd, char *b)
 		if (bytesread == 0)
 			break ;
 		buffer[bytesread] = '\0';
-		b = ft_strjoin(b, buffer);
+		rest = ft_strjoin(rest, buffer);
 	}
 	free (buffer);
-	return (b);
+	return (rest);
 }
 
 char	*get_next_line(int fd)
@@ -64,8 +61,6 @@ char	*get_next_line(int fd)
 	int			find;
 
 	buffer = ft_readbuffer(fd, rest);
-	if (!buffer)
-		return (NULL);
 	find = ft_untiln(buffer);
 	line = ft_substr(buffer, 0, find + 1);
 	if (ft_strchr(buffer, '\n'))
@@ -76,6 +71,9 @@ char	*get_next_line(int fd)
 	return (line);
 }
 /* 
+
+#include <stdio.h>
+
 int	main (int argc, char **argv)
 {
 	int fd;
